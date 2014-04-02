@@ -1,7 +1,7 @@
 <cfcomponent output="false" mixin="controller">
 
 	<cffunction name="init">
-		<cfset this.version = "1.1,1.1.1">
+		<cfset this.version = "1.1,1.1.1,1.1.8">
 		<cfreturn this>
 	</cffunction>
 
@@ -9,9 +9,9 @@
 		<cfargument name="selector" type="string" required="true" hint="The class or ID of the content you wish to insert HTML into" />
 		<cfargument name="name" type="string" required="true" hint="The name of the effect to use, possible values are: 'blind', 'bounce', 'clip', 'drop', 'explode', 'fold', 'highlight', 'puff', 'pulsate', 'scale', 'shake', 'size', 'slide', 'transfer'" />
 		<cfargument name="duration" type="string" required="false" hint="A string representing one of the three predefined speeds ('slow', 'normal', or 'fast') or the number of milliseconds to run the animation (e.g. 1000)." />
-		
+
 		<cfset var loc = {}>
-				
+
 		<cfset loc.result = "$('#arguments.selector#').effect('#arguments.name#', '#arguments.duration#');">
 
 		<cfreturn loc.result />
@@ -87,7 +87,7 @@
 		<cfset var loc = {}>
 
 		<cfset loc.resultHTML = "$('#arguments.selector#').hide();">
-		
+
 		<cfreturn loc.resultHTML />
 	</cffunction>
 
@@ -102,26 +102,26 @@
 	</cffunction>
 
 	<cffunction name="pageRedirectTo" access="public" output="false" hint="Redirects the user to the desired location according to Wheels `urlFor` rules">
-		
+
 		<cfset var loc = {}>
 
 		<cfset loc.resultHTML = "window.location.replace('#URLFor(argumentCollection = arguments)#');">
-		
+
 		<cfreturn loc.resultHTML />
 	</cffunction>
-	
+
 	<cffunction name="pageInsertFlash" hint="Dynamically inserts a specified flash key into the DOM.">
 		<cfargument name="key" type="string" required="false">
 		<cfargument name="selector" type="string" required="false" default=".flash-messages">
 		<cfargument name="reset" type="boolean" required="false" default="true" hint="If this is set to true, anything leftover in the flash div will be cleared.">
-		
+
 		<cfscript>
 			var loc = {};
 			loc.returnJS = "";
-			
+
 			if (arguments.reset)
 				loc.returnJS = pageReplaceHTML(selector=arguments.selector, content="");
-			
+
 			if (structKeyExists(arguments, "key")) {
 				loc.content = "<p class=""" & arguments.key & """>" & flash(arguments.key) & "</p>";
 				loc.returnJS = pageReplaceHTML(selector=arguments.selector, content=loc.content);
@@ -136,9 +136,9 @@
 		</cfscript>
 		<cfreturn loc.returnJS>
 	</cffunction>
-	
+
 	<!--- Wheels overwrites --->
-	
+
 	<cffunction name="startFormTag" returntype="string" access="public" output="false" hint="">
 		<cfargument name="method" type="string" required="false" hint="The type of method to use in the form tag. `get` and `post` are the options.">
 		<cfargument name="multipart" type="boolean" required="false" hint="Set to `true` if the form should be able to upload files.">
@@ -178,10 +178,10 @@
 			// set the form to be able to handle file uploads
 			if (!StructKeyExists(arguments, "enctype") && arguments.multipart)
 				arguments.enctype = "multipart/form-data";
-			
+
 			if (StructKeyExists(arguments, "remote") && IsBoolean(arguments.remote))
 				arguments["data-remote"] = arguments.remote;
-			
+
 			loc.skip = "multipart,spamProtection,route,controller,key,params,anchor,onlyPath,host,protocol,port,remote";
 			if (Len(arguments.route))
 				loc.skip = ListAppend(loc.skip, $routeVariables(argumentCollection=arguments)); // variables passed in as route arguments should not be added to the html element
@@ -192,7 +192,7 @@
 		</cfscript>
 		<cfreturn loc.returnValue>
 	</cffunction>
-	
+
 	<cffunction name="linkTo" returntype="string" access="public" output="false" hint="">
 		<cfargument name="text" type="string" required="false" default="" hint="The text content of the link.">
 		<cfargument name="confirm" type="string" required="false" default="" hint="Pass a message here to cause a JavaScript confirmation dialog box to pop up containing the message.">
@@ -230,7 +230,7 @@
 		</cfscript>
 		<cfreturn loc.returnValue>
 	</cffunction>
-	
+
 	<cffunction name="buttonTo" returntype="string" access="public" output="false" hint="">
 		<cfargument name="text" type="string" required="false" hint="The text content of the button.">
 		<cfargument name="confirm" type="string" required="false" hint="See documentation for @linkTo.">
@@ -258,7 +258,7 @@
 				arguments["data-remote"] = arguments.remote;
 			if (Len(arguments.disable))
 				loc.submitTagArguments["data-disable-with"] = JSStringFormat(arguments.disable);
-			
+
 			loc.submitTagArguments.value = arguments.text;
 			loc.submitTagArguments.image = arguments.image;
 			loc.content = submitTag(argumentCollection=loc.submitTagArguments);
@@ -269,7 +269,7 @@
 		</cfscript>
 		<cfreturn loc.returnValue>
 	</cffunction>
-	
+
 	<cffunction name="submitTag" returntype="string" access="public" output="false" hint="">
 		<cfargument name="value" type="string" required="false" hint="Message to display in the button form control.">
 		<cfargument name="image" type="string" required="false" hint="File name of the image file to use in the button form control.">
@@ -298,7 +298,7 @@
 		</cfscript>
 		<cfreturn loc.returnValue>
 	</cffunction>
-	
+
 	<cffunction name="$requestContentType" access="public" output="false" returntype="string">
 		<cfargument name="params" type="struct" required="false" default="#variables.params#" />
 		<cfargument name="httpAccept" type="string" required="false" default="#request.cgi.http_accept#" />
@@ -317,5 +317,5 @@
 		</cfscript>
 		<cfreturn loc.format />
 	</cffunction>
-	
+
 </cfcomponent>

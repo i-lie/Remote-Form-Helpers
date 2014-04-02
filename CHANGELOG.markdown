@@ -1,4 +1,8 @@
 # CHANGE LOG
+- Version 0.10.1:
+	- Set compatibility to Wheels 1.1.8
+	- Support jQuery 1.10
+	
 - Version 0.9:
 	- Drops support for anything below 1.1
 	- Removes obstructive JavaScript from the output.

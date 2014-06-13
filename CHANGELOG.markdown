@@ -1,8 +1,11 @@
 # CHANGE LOG
+- Version 0.10.2:
+	- Fix the submitTag to ignore "prepend" and "append" arguments
+	- Update jquery-ujs to latest version (29th Apr 2014)
+
 - Version 0.10.1:
-	- Set compatibility to Wheels 1.1.8
-	- Support jQuery 1.10
-	
+	- Support for CFWheels 1.1.8
+
 - Version 0.9:
 	- Drops support for anything below 1.1
 	- Removes obstructive JavaScript from the output.
